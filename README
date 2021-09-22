@@ -1,0 +1,132 @@
+-------------------------------------------------------------------------------
+Perl Chat 0.1.1 - Alpha Release
+Author: Torrance Jones <torrancejones@users.sourceforge.net>
+Date: August 23, 2000
+License: GNU GPL http://www.fsf.org/copyleft/gpl.html
+Homepage: http://perlchat.sourceforge.net
+-------------------------------------------------------------------------------
+
+Completed Functionality So Far!
+   Client Side: Connects to socket.
+                Register a new username/password.
+                Login to server with username/password.
+                Logout of server.
+                Get a list of who is logged in.
+                Send a private message to a user.
+                Send a Global Message.
+                Get the info on a buddy who is logged in.
+                Change you own personal buddy info.
+                Quit program.
+               
+    Server Side: Connects socket to client.  Upon connection the clients
+                   ipaddress is added to a hash.  This info is later used
+                   to deny any other logins from the same machine.
+                 When client tries to register a new username/password
+                   the server looks for an entry in the password file
+                   and either denies or grants the new user.  Granting 
+                   the user results in the new info being added to the
+                   password file.
+                 Authenticate user login with info from the client and  
+                   info in the password file. TODO: once authenticated the
+                   hash should be updated to reflect the new status of 
+                   the client.
+                 When client logs out of the server the hash is modified
+                   and the socket is terminated.
+                 When the client quits, or when the connection to the client
+                   is lost, the user is automatically logged out of the
+                   server.
+                 Relay a private message from the sender to the recipient.
+                 Relay a Global Message to all logged on users.
+                 Allow the client to query another users info.
+                 Allow a client to change his/her own private info.
+
+
+   Scheduled for release 0.2.0 - (Yeah I know some of these were in the
+                                  0.1.0 release but I never got them done.)
+
+   TODO: Prohibit multiple user logins at the same time.  (i.e. do not allow
+         user to login as xxx, and then login as yyy without first logging
+         out of xxx.
+
+         Make the client more responsive (i.e. eliminate the pause caused by
+         the use of a timer).
+    
+         better organize the connect_serv() procedure in the client.
+
+         $conn_stat should be updated sometime regularly in the client.
+
+         Filter out messages so the client cannot send a '::' to the server 
+           or change the character that separates the fields of data, or
+           allow arrays to be passed through the sockets.
+
+         Get rid of globals $pass, $user in the client.
+
+         check for stale users that no longer exist on the server.
+
+         update clients when new user logs in/out on the server.
+
+         Block users from registering multiple names in a certian
+           time period on the server.
+
+         Block multiple logins from the same host on the server.
+
+
+Modules Used - (NONE that don't come standard with Perl 5.X, excluding Tk)
+         ON THE SERVER:
+            POSIX
+            IO::Socket
+            IO::Select
+            Socket
+            Fcntl
+            Tie::RefHash
+ 
+         ON THE CLIENT:
+            Tk
+            IO::Select
+            POSIX
+            IO::Socket
+            Socket
+            Fcntl
+            Tie::RefHash
+
+Getting the Perl Interpreter:
+          Visit   http://www.perl.com   or   http://www.activestate.com
+          Follow the directions that come with Perl whether you are 
+          compiling your own binary or getting theirs, the directions that
+          come with perl are very good.
+
+Getting the Tk module:
+          Under Linux:
+            Get the tarball from 
+              http://www.cpan.org/authors/id/N/NI/NI-S/Tk800.022.tar.gz
+              *must do the below as root user*
+              % tar -zxvf Tk800.022.tar.gz
+              % perl Makefile.PL
+              % make
+              % make test
+              % make install
+
+          Under Win32:
+              Open a NT console or a msdos prompt and enter:
+              c:\> ppm
+              ppm> install Tk
+
+Running The Program:
+          Under Linux:
+              change into the directory where the perl program is located
+              % ./client.pl 
+              or 
+              % ./server.pl
+
+          Under Win32:
+              Double click on client.pl or server.pl in Windows Explorer.
+              or
+              Open a NT console or a msdos prompt
+              change into the directory where client.pl or server.pl resides
+                 c:\> client.pl
+                 or
+                 c:\> server.pl
+
+BUGS:
+There are a few but they are not listed here yet!
+See TODO, for an idea of whats wrong.
